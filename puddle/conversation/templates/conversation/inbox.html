@@ -1,0 +1,116 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Inbox{% endblock title %}
+
+{% block content %}
+{% comment %} <h2 class="text-3xl mb-6">Inbox</h2>
+<div class="space-y-6">
+    {% for conversation in conversations %}
+        <a href="{% url 'conversation:detail' conversation.id %}">
+            <div class="p-6 flex bg-gray-100 rounded-xl">
+                <div class="pr-6">
+                    <img src="{{ conversation.item.image.url }}" class="w-20 rounded-xl">
+                </div>
+
+                <div>
+                    {% for member in conversation.members.all %}
+                        {% if member != request.user %}
+                            <p class="mb-4"><strong>{{ member.username }}</strong> | {{ conversation.modified_at }}</p>
+                            <p> {{ conversation.item.name }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div> {% endcomment %}
+<!-- Chatting -->
+<div class="flex flex-row justify-between bg-white">
+  <!-- chat list -->
+  <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+    <!-- user list -->
+    <ul>
+      {% for con in conversations %}
+      <a href="{% url 'conversation:inbox' con.id %}">
+        <li class="w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700{% if con.id == conversation.id %} bg-gray-200 text-cyan-500 font-semibold {% endif %}">
+          <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
+              <div class="w-1/4">
+                  <img
+                      src="{{ con.item.image.url }}"
+                      class="object-cover h-12 w-12 rounded-full"
+                      alt=""/>
+              </div>
+              {% for member in con.members.all %}
+                  {% if member != request.user %}
+                      <div class="w-full">
+                          <div class="text-lg font-semibold">{{ member.username }}</div>
+                          <span class="text-gray-500">{{ con.modified_at }}</span>
+                          </div>
+                  {% endif %}
+              {% endfor %}
+          </div>
+        </li>
+      </a>
+      {% endfor %}
+    </ul>
+    <!-- end user list -->
+  </div>
+  <!-- end chat list -->
+  <div class="w-full px-5 flex flex-col justify-between">
+    <div class="flex flex-col mt-5">
+        {% for message in conversation.messages.all %}
+            {% if message.created_by == request.user %}
+            <div class="flex justify-end mb-4">
+              <div
+                class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+              >
+                {{message.content}}
+              </div>
+              {% comment %} <img
+                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+                class="object-cover h-8 w-8 rounded-full"
+                alt=""
+              /> {% endcomment %}
+            </div>
+            {% else %}
+            <div class="flex justify-start mb-4">
+              {% comment %} <img
+                src="https://source.unsplash.com/vpOeXr5wmR4/600x600"
+                class="object-cover h-8 w-8 rounded-full"
+                alt=""
+              /> {% endcomment %}
+              <div
+                class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+              >
+                {{message.content}}
+              </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <form method="post" action="." class="mt-6 text-lg">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="flex">
+          <button class="px-4 py-2 mt-2 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white ml-auto">Send</button>
+        </div>
+    </form>
+</div>
+  <!-- end message -->
+  <div class="w-2/5 border-l-2 px-5">
+    <div class="flex flex-col">
+      <div class="font-semibold text-xl py-4">Coding with me</div>
+      <img
+        src="https://source.unsplash.com/L2cxSuKWbpo/600x600"
+        class="object-cover rounded-xl h-64"
+        alt=""
+      />
+      <div class="font-semibold py-4">Created 4/2023</div>
+      <div class="font-light">
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock content %}

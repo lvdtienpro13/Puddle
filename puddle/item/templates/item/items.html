@@ -1,0 +1,96 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Items{% endblock title %}
+
+{% block content %}
+<div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
+    <div class='col-span-1'>
+        <form method='get' action="{% url 'item:items' %}">
+            {% comment %} 
+            <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{query}}" placeholder="Find something">
+            <button class="mt-2 mb-4 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl">Search</button> {% endcomment %}
+            <div class="mb-3 mt-6">
+                <div class="relative mb-4 flex w-full flex-wrap items-stretch">
+                  <input
+                    type="search"
+                    class="relative m-0 -mr-px block w-[1%] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-white bg-clip-padding px-3 py-1.5 text-base font-normal text-neutral-700 outline-none transition duration-300 ease-in-out focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:text-neutral-200 dark:placeholder:text-neutral-200"
+                    placeholder="Search"
+                    aria-label="Search"
+                    aria-describedby="button-addon1"
+                    name="query"
+                    value="{{query}}"
+                    />
+                    {% comment %} <input type="hidden" name="category" value="{{category_id}}"> {% endcomment %}
+                  <!--Search button-->
+                  <button
+                    class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
+                    type="submit"
+                    id="button-addon1"
+                    data-te-ripple-init
+                    data-te-ripple-color="light">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      class="h-5 w-5">
+                      <path
+                        fill-rule="evenodd"
+                        d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+        </form>
+
+        <p class="font-semibold mb-2">Categories</p>
+        <ul>
+            {% for category in categories%}             
+                    <a href="{% url 'item:items'%}?query={{query}}&category={{category.id}}">
+                        <li class="px-4 py-2 w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700{% if category.id == category_id %} bg-gray-200 text-cyan-500 font-semibold {% endif %}">
+                            {{category.name}}
+                        </li>
+                    </a>
+               
+            {% endfor%}
+        </ul>
+        <ul>
+            <li>
+                <a href="{% url 'item:items' %}" class="mt-4 py-2 px-4 inline-block bg-yellow-700 text-lg rounded-xl text-white"> Clear filter</a>
+            </li>
+        </ul>
+    </div>
+    <div class='col-span-3'>
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+            {% for item in items %}
+                <div class="w-full max-w-sm mx-auto rounded-lg shadow-md overflow-hidden">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div class="flex items-end justify-end h-56 w-full bg-cover" style="background-image: url('{{item.image.url}}')">
+                            <button class="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </div>
+                        <div class="px-5 py-3">
+                            <h3 class="text-gray-700 uppercase">{{item.name}}</h3>
+                            {% if item.discount_price %}
+                                <span class="text-gray-500 mt-2">{{item.discount_price}}</span>
+                            {% else %}
+                                <span class="text-gray-500 mt-2">{{item.price}}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="flex justify-center">
+    <div class="flex rounded-md mt-8">
+        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-blue-500 hover:text-white"><span>Previous</a></a>
+        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>1</span></a>
+        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>2</span></a>
+        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>3</span></a>
+        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-blue-500 hover:text-white"><span>Next</span></a>
+    </div>
+</div>
+{% endblock content %}
