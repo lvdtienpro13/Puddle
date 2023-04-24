@@ -487,15 +487,18 @@
                     </svg>
                     <span class="mx-1 text-sm">Vi</span>
                 </div>
-                <div class="w-full text-gray-100 md:text-center text-2xl font-semibold">
+                <div class="w-full text-gray-100 md:text-center text-2xl font-semibold font-serif">
                     Online Market
                 </div>
                 <div class="flex items-center justify-end w-full">
-                    <button class="text-neutral-100 hover:text-orange-200 focus:text-orange-200 mx-4 sm:mx-2">
-                        <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    <a href="{%url 'item:order-summary'%}" class="text-neutral-100 hover:text-orange-200 focus:text-orange-200 mx-4 sm:mx-2">
+                      <div class="relative">
+                        <svg class="h-5 w-5 inline-block" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                         </svg>
-                    </button>
+                        <span class="absolute top-0 right-0 bg-red-700 rounded-full py-21 px-21 text-xs text-white font-medium">{{ cart_item_count }}</span>
+                      </div>
+                    </a>
                     <a class="mr-4 text-neutral-100 hover:text-orange-200 focus:text-orange-200 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
                         href="{% url 'conversation:inbox1' %}">
                         <span class="[&>svg]:w-5">
@@ -535,13 +538,13 @@
                     </div>
                 </div>
             </div>
-            <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
+            <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-1">
                 <div class="flex flex-col sm:flex-row">
                     <a class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0" href="{%url 'core:index'%}">Home</a>
                     <a class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0" href="#">Shop</a>
                     <a class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0" href="#">Categories</a>
-                    <a class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0" href="#">Contact</a>
-                    <a class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0" href="#">About</a>
+                    <button onclick="scrollToFooter()" class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0">Contact</button>
+                    <button onclick="scrollToFooter()" class="mt-3 text-gray-100 hover:underline sm:mx-3 sm:mt-0">About</button>
                 </div>
             </nav>
         </div>
@@ -555,8 +558,8 @@
               <input class="w-full border rounded-md pl-10 pr-4 py-2 focus:border-orange-600 focus:outline-none focus:shadow-outline" type="text" placeholder="Search">
           </div>
     </header>
-
-    <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
+    {% if request.user.is_authenticated %}
+      <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
         <div class="flex items-center justify-between">
             <h3 class="text-2xl font-medium text-gray-700">Username</h3>
             <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
@@ -565,17 +568,17 @@
         </div>
         <hr class="my-3">
         <div class="flex justify-between mt-4">
-          <a href="#{% comment %}{% url 'core:profile' request.user.username %}{% endcomment %}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+          <a href="{% url 'core:profile' request.user.username %}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
             Profile
           </a>
         </div>
         <div class="flex justify-between mt-4">
-          <a href="#" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+          <a href="{%url 'core:settings'%}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
             Setting
           </a>
         </div>
         <div class="flex justify-between mt-4">
-          <a href="#" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+          <a href="{%url 'core:change_password'%}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
             Change Password
           </a>
         </div>
@@ -584,9 +587,34 @@
             Logout
           </a>
         </div>
-
     </div>
-    <div class="mt-3 pt-4">
+    {% else %}
+      <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
+        <div class="flex items-center justify-between">
+            <h3 class="text-2xl font-medium text-gray-700">Username</h3>
+            <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
+                <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <hr class="my-3">
+        <div class="flex justify-between mt-4">
+          <a href="{%url 'core:login'%}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            Login
+          </a>
+        </div>
+        <div class="flex justify-between mt-4">
+          <a href="{%url 'core:signup'%}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            Signup
+          </a>
+        </div>
+        <div class="flex justify-between mt-4">
+          <a href="#" class="w-full text-center bg-transparent hover:bg-red-500 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            AAA
+          </a>
+        </div>
+    </div>
+    {% endif %}
+    <div class="mt-3 pt-0">
       {% if messages %}
           {% for message in messages %}
           <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -598,11 +626,11 @@
           {% endfor %}
       {% endif %}
       </div>
-      <div class="px-6 py-6">
+      <div class="px-0 py-0">
          {% block content %}
          {% endblock  %}
       </div>
-      <footer class="bg-secondary-100 text-center dark:bg-secondary-600 border-t-2 border-orange-600 ">
+      <footer id="footer" class="bg-secondary-100 text-center dark:bg-secondary-600 border-t-2 border-orange-600 ">
         <div class="px-6 pt-6">
           <form action="">
             <div
@@ -737,6 +765,12 @@
           >
         </div>
       </footer>
+      <script>
+        function scrollToFooter() {
+          const footer = document.getElementById("footer");
+          footer.scrollIntoView({behavior: "smooth"});
+        }
+    </script>
 </div>
 </body>
 </html>
