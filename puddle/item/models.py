@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from payment.models import ShippingAddress
 from django.utils import timezone
+from django.db.models import Sum
 
 # Create your models here.
 class Category(models.Model):
@@ -39,6 +40,10 @@ class Item(models.Model):
         return reverse("item:remove-from-cart", kwargs={
             'pk': self.pk
         })
+    def get_orderitem_quantity(self):
+        total_quantity = OrderItem.objects.filter(item_id=self.id, ordered=True).aggregate(Sum('quantity'))['quantity__sum']
+        return total_quantity if total_quantity else 0
+    
     
 class OrderItem(models.Model):
     user = models.ForeignKey(User,
@@ -63,13 +68,14 @@ class OrderItem(models.Model):
         if self.item.discount_price:
             return self.get_total_discount_item_price()
         return self.get_total_item_price()
+    
 
 
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
-    ordered_date = models.DateTimeField
+    ordered_date = models.DateTimeField(auto_now=True)
     ordered = models.BooleanField(default=False)
     shipping_address = models.ForeignKey(ShippingAddress, related_name='shipping_address', on_delete=models.SET_NULL, blank=True, null=True)
     coupon = models.ForeignKey(
@@ -78,7 +84,8 @@ class Order(models.Model):
     def __str__(self):
         return self.user.username
     
-    def __init__(self, *args, ordered_date=None, **kwargs):
+    def __init__(self, *args, **kwargs):
+        ordered_date = kwargs.pop('ordered_date', None)
         super().__init__(*args, **kwargs)
         self.ordered_date = ordered_date
 

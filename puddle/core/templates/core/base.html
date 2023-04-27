@@ -479,7 +479,7 @@
 
 <div x-data="{ cartOpen: false , isOpen: false }" class="bg-neutral-100">
     <header>
-        <div class="container mx-auto px-6 py-3 bg-orange-600">
+        <div class="container-fluid mx-auto px-6 py-3 bg-orange-600">
             <div class="flex items-center justify-between">
                 <div class="hidden w-full text-gray-100 md:flex md:items-center">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -561,7 +561,7 @@
     {% if request.user.is_authenticated %}
       <div :class="cartOpen ? 'translate-x-0 ease-out' : 'translate-x-full ease-in'" class="fixed right-0 top-0 max-w-xs w-full h-full px-6 py-4 transition duration-300 transform overflow-y-auto bg-white border-l-2 border-gray-300">
         <div class="flex items-center justify-between">
-            <h3 class="text-2xl font-medium text-gray-700">Username</h3>
+            <h3 class="text-2xl font-medium text-gray-700">{{request.user.first_name}} {{request.user.last_name}}</h3>
             <button @click="cartOpen = !cartOpen" class="text-gray-600 focus:outline-none">
                 <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
@@ -570,6 +570,11 @@
         <div class="flex justify-between mt-4">
           <a href="{% url 'core:profile' request.user.username %}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
             Profile
+          </a>
+        </div>
+        <div class="flex justify-between mt-4">
+          <a href="{% url 'dashboard:index'%}" class="w-full text-center bg-transparent hover:bg-orange-600 text-orange-600 font-semibold hover:text-white py-2 px-4 border border-orange-500 hover:border-transparent rounded">
+            Dashboard
           </a>
         </div>
         <div class="flex justify-between mt-4">
