@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 # Create your views here.
 
 def index(request):
-    item_list = Item.objects.filter(is_sold=False)
+    item_list = Item.objects.filter(is_sold=False).order_by('-id')
     paginator = Paginator(item_list, 8)  # Chia các mục thành các trang chứa tối đa 16 mục.
 
     page = request.GET.get('page')  # Lấy số trang từ tham số truy vấn.
@@ -18,19 +18,13 @@ def index(request):
 
     categories = Category.objects.all()
 
+    numbers = [0.5,1.5,2.5,3.5,4.5]
+
     return render(request, 'core/index.html', {
         'categories': categories,
         'items': items,
+        'numbers': numbers,
     })
-
-# def index(request):
-#     items = Item.objects.filter(is_sold=False)[0:16]
-#     categories = Category.objects.all()
-
-#     return render(request, 'core/index.html', {
-#         'categories': categories,
-#         'items': items,
-#     })
 
 def contact(request):
     return render(request, 'core/contact.html')
@@ -60,34 +54,6 @@ def signup(request):
         'form' : form
     })
 
-# @login_required
-# def settings(request):
-#     user_profile = Profile.objects.get(user=request.user)
-#     if request.method == 'POST':
-        
-#         if request.FILES.get('image') == None:
-#             image = user_profile.profileimg
-#             bio = request.POST['bio']
-#             location = request.POST['location']
-
-#             user_profile.profileimg = image
-#             user_profile.bio = bio
-#             user_profile.location = location
-#             user_profile.save()
-#         if request.FILES.get('image') != None:
-#             image = request.FILES.get('image')
-#             bio = request.POST['bio']
-#             location = request.POST['location']
-
-#             user_profile.profileimg = image
-#             user_profile.bio = bio
-#             user_profile.location = location
-#             user_profile.save()
-        
-#         return redirect('/settings/')
-#     form = SettingProfileForm(instance=user_profile)
-#     return render(request, 'core/setting.html', {
-#         'form': form})
 @login_required
 def settings(request):
     profile = Profile.objects.get(user=request.user)
@@ -123,12 +89,15 @@ def profile(request, pk):
     user_profile = Profile.objects.get(user=user_object)
     user_items = Item.objects.filter(created_by=user_object)
     user_items_length = len(user_items)
+
+    numbers = [0.5,1.5,2.5,3.5,4.5]
     
     context = {
         'user_object' : user_object,
         'user_profile' : user_profile,
         'user_items': user_items,
         'user_items_length' :user_items_length,
+        'numbers':numbers,
     }
     return render(request, 'core/profile.html', context)
 

@@ -1,5 +1,5 @@
 from .models import Profile
-from item.models import OrderItem
+from item.models import OrderItem, Order
 
 def profile_picture(request):
     if request.user.is_authenticated:

@@ -5,6 +5,7 @@ from payment.models import ShippingAddress
 from django.utils import timezone
 from django.db.models import Sum
 
+
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -25,6 +26,7 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     image = models.ImageField(upload_to='item_images', blank=True, null=True)
     is_sold = models.BooleanField(default=False)
+    average_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0)
     created_by = models.ForeignKey(User, related_name='items', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -44,6 +46,16 @@ class Item(models.Model):
         total_quantity = OrderItem.objects.filter(item_id=self.id, ordered=True).aggregate(Sum('quantity'))['quantity__sum']
         return total_quantity if total_quantity else 0
     
+    def calculate_avg_rating(self):
+        from rating.models import Rating
+        ratings = Rating.objects.filter(item=self)
+        if ratings.count() > 0:
+            sum_ratings = sum([rating.rating for rating in ratings])
+            self.average_rating = sum_ratings / ratings.count()
+        else:
+            self.average_rating = 0
+        self.save()
+    
     
 class OrderItem(models.Model):
     user = models.ForeignKey(User,
@@ -51,6 +63,7 @@ class OrderItem(models.Model):
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    rated = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.quantity} of {self.item.name}"

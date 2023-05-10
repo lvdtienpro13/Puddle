@@ -25,7 +25,7 @@ def index(request):
 
 @login_required
 def purchase_orders(request):
-    purchase_orders = Order.objects.filter(user = request.user, ordered = True)
+    purchase_orders = Order.objects.filter(user = request.user, ordered = True).order_by('-id')
     context = {
         'purchase_orders' :purchase_orders,
     }
@@ -41,7 +41,7 @@ def purchase_orders(request):
 
 @login_required 
 def sales_orders(request):
-    sales_orders = OrderItem.objects.filter(ordered=True, item__created_by=request.user)
+    sales_orders = OrderItem.objects.filter(ordered=True, item__created_by=request.user).order_by('-id')
     context = {
         'sales_orders':sales_orders,
     }

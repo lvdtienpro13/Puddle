@@ -1,0 +1,76 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Rating Page {% endblock title %} 
+
+{%block content%}
+<div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
+    <div class='col-span-1 ml-6'>
+        <p class="font-semibold mb-2">Rating page</p>
+        <ul>          
+             <a href="{%url 'rating:index'%}?rated_type=0">
+                <li class="px-4 py-2 w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700 {% if rated_type == '0' %} bg-orange-600 text-cyan-500 font-semibold {% endif %}">{% comment %} {% if category.id == category_id %} bg-gray-200 text-cyan-500 font-semibold {% endif %} {% endcomment %}
+                    Chưa đánh giá
+                </li>
+              </a>
+              <a href="{%url 'rating:index'%}?rated_type=1">
+                <li class="px-4 py-2 w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700 {% if rated_type == '1' %} bg-orange-600 text-cyan-500 font-semibold {% endif %}">
+                   Đã đánh giá
+               </li>
+             </a>
+        </ul>
+    </div>
+    <div class='col-span-3'>
+        <div class="flex flex-col overflow-x-auto  border-t-2 border-orange-600 mt-4">
+            <div class="sm:-mx-6 lg:-mx-8">
+              <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                <div class="overflow-x-auto">
+                  <table class="min-w-full text-center text-sm font-light">
+                    <thead class="border-b font-medium dark:border-neutral-500">
+                      <tr>
+                        <th scope="col" class="px-6 py-4 text-xl">Item Name</th>
+                        <th scope="col" class="px-6 py-4 text-xl">Price</th>
+                        <th scope="col" class="px-6 py-4 text-xl">Quantity</th>
+                        <th scope="col" class="px-6 py-4 text-xl">Total Item Price</th>
+                        <th scope="col" class="px-6 py-4 text-xl">Rate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in items_with_rating %}
+                            <tr class="border-b dark:border-neutral-500">
+                                <td class="whitespace-nowrap px-6 py-4">{{item.item.item.name}}</td>
+                                <td class="whitespace-nowrap px-6 py-4">{{item.item.item.price}}</td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    {{item.item.quantity}}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    {% if item.item.discount_price %}
+                                        ${{ item.item.get_total_discount_item_price }}
+                                        <span class="badge badge-primary">Saving ${{ item.get_amount_saved }}</span>
+                                    {% else %}
+                                        ${{ item.item.get_total_item_price }}
+                                    {% endif %}
+                                </td>
+                                <td class="whitespace-nowrap px-6 py-4">
+                                    {% if rated_type == '0' %}
+                                        <a href="{%url 'rating:rating'  item.item.id%}" class="bg-orange-600 hover:bg-orange-300 px-6 py-3 rounded-xl text-white">Rating</a>
+                                    {% else %}
+                                    <div>
+                                      <p>{{item.rating.rating}} ★</p>
+                                    </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan='5'>Empty</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+{% endblock %}

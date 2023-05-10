@@ -13,7 +13,7 @@ from .forms import NewItemForm, EditItemForm
 # Create your views here.
 
 def items(request):
-    items = Item.objects.filter(is_sold = False)
+    items = Item.objects.filter(is_sold = False).order_by('-id')
     query = request.GET.get('query', '')
     category_id = request.GET.get('category', 0)
     categories = Category.objects.all()
@@ -24,21 +24,27 @@ def items(request):
     if query:
         items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
+    numbers = [0.5,1.5,2.5,3.5,4.5]
+
     return render(request, 'item/items.html', {
         'items' : items[0:8],
         'query' : query,
         'categories': categories,
-        'category_id': int(category_id)
+        'category_id': int(category_id),
+        'numbers':numbers,
     })
 
 
 def detail(request, pk):
     item = get_object_or_404(Item, pk=pk)
     related_items = Item.objects.filter(category=item.category, is_sold=False).exclude(pk=pk)[0:3]
-    
+    #number of start
+    numbers = [0.5,1.5,2.5,3.5,4.5]
     return render(request, 'item/detail.html',{
         'item' : item,
-        'related_items' : related_items
+        'related_items' : related_items,
+        'numbers': numbers,
+
     })
 
 @login_required

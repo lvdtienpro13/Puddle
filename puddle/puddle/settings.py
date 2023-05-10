@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'dashboard',
     'conversation',
     'payment',
+    'rating',
     'paypal.standard.ipn',
 ]
 
