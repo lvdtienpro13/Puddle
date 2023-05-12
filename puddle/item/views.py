@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Item, Category, OrderItem, Order
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, CharField, Value
 from django.contrib import messages
 from django.utils import timezone
 from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from unidecode import unidecode
+from django.core.paginator import Paginator
 
 from .forms import NewItemForm, EditItemForm
 # Create your views here.
@@ -18,16 +20,33 @@ def items(request):
     category_id = request.GET.get('category', 0)
     categories = Category.objects.all()
 
-    if category_id:
+    if category_id and category_id != 0:
         items = items.filter(category_id=category_id)
-    
+
     if query:
-        items = items.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        # bỏ qua dấu và chuyển đổi chuỗi tìm kiếm sang chữ thường
+        query1 = unidecode(query).lower()
+
+        # lọc lại kết quả
+        results = []
+        for item in items:
+            # bỏ qua dấu và chuyển đổi chuỗi name và description sang chữ thường
+            name = unidecode(item.name).lower()
+            description = unidecode(item.description).lower()
+
+            if query1 in name or query in description:
+                results.append(item)
+        items = results
+    
+    paginator = Paginator(items, 9)  # Chia các mục thành các trang chứa tối đa 9 mục.
+
+    page = request.GET.get('page')  # Lấy số trang từ tham số truy vấn.
+    items = paginator.get_page(page)  # Lấy các mục cho trang hiện tại.
 
     numbers = [0.5,1.5,2.5,3.5,4.5]
 
     return render(request, 'item/items.html', {
-        'items' : items[0:8],
+        'items' : items,
         'query' : query,
         'categories': categories,
         'category_id': int(category_id),

@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 def index(request):
     item_list = Item.objects.filter(is_sold=False).order_by('-id')
-    paginator = Paginator(item_list, 8)  # Chia các mục thành các trang chứa tối đa 16 mục.
+    paginator = Paginator(item_list, 8)  # Chia các mục thành các trang chứa tối đa 8 mục.
 
     page = request.GET.get('page')  # Lấy số trang từ tham số truy vấn.
     items = paginator.get_page(page)  # Lấy các mục cho trang hiện tại.

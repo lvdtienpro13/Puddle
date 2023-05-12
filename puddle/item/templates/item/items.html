@@ -5,10 +5,8 @@
 {% block content %}
 <div class="pb-6 grid grid-cols-4 gap-4 bg-gray-100">
     <div class='col-span-1 ml-6'>
-        <form method='get' action="{% url 'item:items' %}">
-            {% comment %} 
-            <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{query}}" placeholder="Find something">
-            <button class="mt-2 mb-4 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl">Search</button> {% endcomment %}
+        {% comment %} <form method='get' action="{% url 'item:items' %}">
+           
             <div class="mb-3 mt-6">
                 <div class="relative mb-4 flex w-full flex-wrap items-stretch">
                   <input
@@ -20,7 +18,6 @@
                     name="query"
                     value="{{query}}"
                     />
-                    {% comment %} <input type="hidden" name="category" value="{{category_id}}"> {% endcomment %}
                   <!--Search button-->
                   <button
                     class="relative z-[2] flex items-center rounded-r bg-primary px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-primary-700 hover:shadow-lg focus:bg-primary-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-primary-800 active:shadow-lg"
@@ -41,7 +38,7 @@
                   </button>
                 </div>
               </div>
-        </form>
+        </form> {% endcomment %}
 
         <p class="font-semibold mb-2">Categories</p>
         <ul>
@@ -109,11 +106,21 @@
 </div>
 <div class="flex justify-center">
     <div class="flex rounded-md mt-8">
-        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-blue-500 hover:text-white"><span>Previous</a></a>
-        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>1</span></a>
-        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>2</span></a>
-        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"><span>3</span></a>
-        <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-blue-500 hover:text-white"><span>Next</span></a>
+        {% if items.has_previous %}
+            <a href="?page={{ items.previous_page_number }}" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-orange-600 border-r-0 ml-0 rounded-l hover:bg-orange-500 hover:text-white"><span>Previous</a>
+        {% endif %}
+        
+        {% for i in items.paginator.page_range %}
+            {% if items.number == i %}
+                <a href="#" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-orange-600 border-r-0 hover:bg-orange-500 hover:text-white"><span>{{ i }}</span></a>
+            {% elif i > items.number|add:'-3' and i < items.number|add:'3' %}
+                <a href="?page={{ i }}" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-orange-600 border-r-0 hover:bg-orange-500 hover:text-white"><span>{{ i }}</span></a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if items.has_next %}
+            <a href="?page={{ items.next_page_number }}" class="py-2 px-4 leading-tight bg-white border border-gray-200 text-orange-600 rounded-r hover:bg-orange-500 hover:text-white"><span>Next</span></a>
+        {% endif %}
     </div>
 </div>
 {% endblock content %}
