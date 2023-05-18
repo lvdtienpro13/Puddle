@@ -3,6 +3,29 @@
 {% block title %}Inbox{% endblock title %}
 
 {% block content %}
+  <style>
+    .message-container {
+      max-height: 250px;
+      overflow-y: auto;
+  }
+  .userlist-container {
+    max-height: 400px; 
+    overflow-y: auto;
+  }
+  </style>
+  <script>
+      const messageContainer = document.querySelector('.message-container');
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+  </script>
+  <script>
+    function scrollToBottom() {
+        const messageContainer = document.querySelector('.message-container');
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    window.addEventListener('load', scrollToBottom);
+  </script>
+
 {% comment %} <h2 class="text-3xl mb-6">Inbox</h2>
 <div class="space-y-6">
     {% for conversation in conversations %}
@@ -25,14 +48,14 @@
     {% endfor %}
 </div> {% endcomment %}
 <!-- Chatting -->
-<div class="flex flex-row justify-between bg-white">
+<div class="flex flex-row justify-between bg-white mb-8">
   <!-- chat list -->
-  <div class="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+  <div class="userlist-container flex flex-col w-2/5 border-r-2 overflow-y-auto">
     <!-- user list -->
     <ul>
       {% for con in conversations %}
       <a href="{% url 'conversation:inbox' con.id %}">
-        <li class="w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700{% if con.id == conversation.id %} bg-gray-200 text-cyan-500 font-semibold {% endif %}">
+        <li class="w-full border transition duration-200 ease-in-out hover:shadow-md hover:bg-white hover:text-gray-700{% if con.id == conversation.id %} bg-gray-200 text-orange-500 font-semibold {% endif %}">
           <div class="flex flex-row py-4 px-2 justify-center items-center border-b-2">
               <div class="w-1/4">
                   <img
@@ -57,12 +80,12 @@
   </div>
   <!-- end chat list -->
   <div class="w-full px-5 flex flex-col justify-between">
-    <div class="flex flex-col mt-5">
+    <div class="message-container flex flex-col mt-5">
         {% for message in conversation.messages.all %}
             {% if message.created_by == request.user %}
             <div class="flex justify-end mb-4">
               <div
-                class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+                class="mr-2 py-3 px-4 bg-orange-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
               >
                 {{message.content}}
               </div>
@@ -80,7 +103,7 @@
                 alt=""
               /> {% endcomment %}
               <div
-                class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+                class="ml-2 py-3 px-4 bg-gray-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-orange-800"
               >
                 {{message.content}}
               </div>
@@ -92,7 +115,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <div class="flex">
-          <button class="px-4 py-2 mt-2 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white ml-auto">Send</button>
+          <button class="px-4 py-2 mt-2 text-lg bg-orange-600 hover:bg-orange-300 rounded-xl text-white ml-auto">Send</button>
         </div>
     </form>
 </div>
@@ -111,6 +134,4 @@
       </div>
     </div>
   </div>
-</div>
-</div>
 {% endblock content %}

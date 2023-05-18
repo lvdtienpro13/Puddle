@@ -3,6 +3,7 @@
 {% block title %}New Conversation{% endblock title %}
 
 {% block content %}
+<div class="w-1/2 mx-auto">
 <h1 class="mb-6 text-3xl">New conversation</h1>
 <form method="post" action=".">
     {% csrf_token %}
@@ -19,7 +20,8 @@
             {{ form.non_field_errors }}
         </div>
     {% endif %}
-    <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Send</button>
+    <button class="mt-6 py-4 px-8 text-lg bg-orange-500 hover:bg-orange-700 rounded-xl text-white">Send</button>
 </form>
+</div>
 {% endblock content %}
 

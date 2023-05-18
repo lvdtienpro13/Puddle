@@ -1,9 +1,161 @@
-{% extends 'core/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com" ></script>
+    <title>Login | Puddle</title>
+    <link
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap"
+        rel="stylesheet" />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+        <script src="https://cdn.tailwindcss.com/3.2.4"></script>
+        <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+            fontFamily: {
+                sans: ["Roboto", "sans-serif"],
+                body: ["Roboto", "sans-serif"],
+                mono: ["ui-monospace", "monospace"],
+            },
+            },
+            corePlugins: {
+            preflight: false,
+            },
+        };
+        </script>
+</head>
+<body>
 
-{%block title%} Sign up {%endblock%}
-
-{%block content%}
-    <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+  <section class="gradient-form w-full h-full bg-neutral-200 dark:bg-neutral-700">
+    <div class="container h-full">
+      <div
+        class="g-6 flex h-full flex-wrap items-center justify-center text-neutral-800 dark:text-neutral-200">
+        <div class="w-full">
+          <div
+            class="block rounded-lg bg-white shadow-lg dark:bg-neutral-800">
+            <div class="g-0 lg:flex lg:flex-wrap">
+              <!-- Right column container with background and description-->
+              <div
+                class="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
+                style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)">
+                <div class="px-4 py-6 text-white md:mx-6 md:p-12">
+                  <h4 class="mb-6 text-xl font-semibold">
+                    We are more than just a company
+                  </h4>
+                  <p class="text-sm">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua. Ut enim ad minim veniam, quis
+                    nostrud exercitation ullamco laboris nisi ut aliquip ex
+                    ea commodo consequat.
+                  </p>
+                </div>
+              </div>
+              <!-- Left column container-->
+              <div class="px-4 md:px-0 lg:w-6/12">
+                <div class="md:mx-6 md:p-12">
+                  <!--Logo-->
+                  <div class="text-center">
+                    <img
+                      class="mx-auto w-48"
+                      src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
+                      alt="logo" />
+                    <h4 class="mb-12 mt-1 pb-1 text-xl font-semibold">
+                      We are The Lotus Team
+                    </h4>
+                  </div>
+  
+                  <form method="post" action=".">
+                    {% csrf_token %}
+                    <p class="mb-4">Create account</p>
+                    <!--Username input-->
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                      {{form.username}}
+                      <label
+                        for="exampleFormControlInput1"
+                        class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                        >Username
+                      </label>
+                    </div>
+                    <!--Email input-->
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                        {{form.email}}
+                        <label
+                          for="exampleFormControlInput1"
+                          class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                          >Email
+                        </label>
+                      </div>
+  
+                    <!--Password input1-->
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                      {{form.password1}}
+                      <label
+                        for="exampleFormControlInput11"
+                        class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                        >Password
+                      </label>
+                    </div>
+                      <!--Password input2-->
+                    <div class="relative mb-4" data-te-input-wrapper-init>
+                        {{form.password2}}
+                        <label
+                          for="exampleFormControlInput11"
+                          class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
+                          >Repeat Password
+                        </label>
+                      </div>
+                    {% if form.errors or form.non_field_errors %}
+                    <div class="mb-3 p-6 bg-red-300 rounded-xl">
+                        {% for field in form %}
+                            {{ field.errors }}
+                        {% endfor %}
+                        {{form.non_field_errors}}
+                    </div>
+                    {% endif %} 
+                    <!--Submit button-->
+                    <div class="mb-12 pb-1 pt-1 text-center">
+                      <button
+                        class="mb-3 inline-block w-full rounded px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_rgba(0,0,0,0.2)] transition duration-150 ease-in-out hover:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)] focus:outline-none focus:ring-0 active:shadow-[0_8px_9px_-4px_rgba(0,0,0,0.1),0_4px_18px_0_rgba(0,0,0,0.2)]"
+                        type="submit"
+                        data-te-ripple-init
+                        data-te-ripple-color="light"
+                        style="
+                          background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+                        ">
+                        Sign up
+                      </button>
+  
+                      {% comment %} <!--Forgot password link-->
+                      <a href="#">Forgot password?</a>
+                    </div>
+  
+                    <!--Register button-->
+                    <div class="flex items-center justify-between pb-6">
+                      <p class="mb-0 mr-2">Don't have an account?</p>
+                      <a href="{%url "core:signup"%}" class="bg-orange-700 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">
+                        Register
+                      </a> {% endcomment %}
+                    </div>
+                  </form>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+      <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/tw-elements.umd.min.js"></script>
+</body>
+</html>
+    {% comment %} <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
         <h1 class="mb-6 text-3xl"> Sign up </h1>
         <form method="post" action=".">
             {% csrf_token %}
@@ -35,6 +187,5 @@
 
             <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
 
-        </form>
-    </div>
-{%endblock%}
+        </form> 
+    </div>{% endcomment %}

@@ -26,9 +26,6 @@ def index(request):
         'numbers': numbers,
     })
 
-def contact(request):
-    return render(request, 'core/contact.html')
-
 def signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
@@ -61,7 +58,7 @@ def settings(request):
         form = SettingProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('core:settings')
+            return redirect('core:profile', pk=request.user.username)
     else:
         form = SettingProfileForm(instance=profile, initial={
             'firstname': request.user.first_name,
