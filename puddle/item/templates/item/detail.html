@@ -15,7 +15,7 @@
                     <span class="text-gray-500 mt-2 mr-2 text-red-500"><del>{{item.price}}</del></span>
                     <span class="text-gray-500 mt-2">{{item.discount_price}}</span>
                 {% else %}
-                    <span class="text-gray-500 mt-2">{{item.price}}</span>
+                    <span class="text-gray-500 mt-2">{{item.price}}$</span>
                 {% endif %}
                 <p class="text-gray-500"><strong>Seller: </strong> <a href="{% url 'core:profile' item.created_by.username %}" class="text-decoration-line: underline">{{item.created_by.username}}</a> </p>
                 {%if item.description%}

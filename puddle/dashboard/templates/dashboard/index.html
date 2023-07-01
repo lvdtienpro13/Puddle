@@ -60,10 +60,10 @@
                         var myChart = new Chart(ctx, {
                             type: 'bar',
                             data: {
-                                labels: [{% for item,quantity_sold in item_quantity_list %} '{{item.name}}',{% endfor %}],
+                                labels: [{% for date,total_income in date_income_list %} '{{date}}',{% endfor %}],
                                 datasets: [{
                                     label: ['Products'],
-                                    data: [{% for item,quantity_sold in item_quantity_list %} '{{item.quantity_sold}}',{% endfor %}],
+                                    data: [{% for date,total_income in date_income_list %} '{{total_income}}',{% endfor %}],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 1)',
                                         'rgba(54, 162, 235, 1)',

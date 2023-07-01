@@ -3,6 +3,34 @@
 {% block title %} Pay using PayPal {% endblock %}
 
 {% block content %}
-    <h1>Pay using PayPal</h1>
-    {{ form.render }}
+    {% comment %} <h1>Pay using PayPal</h1>
+    {{ form.render }} {% endcomment %}
+    <body class="bg-gray-100">
+        <div class="container mx-auto p-8">
+          <h1 class="text-3xl font-bold mb-8">Payment Methods</h1>
+          
+          <ul class="bg-white shadow-md rounded-md divide-y divide-gray-300">
+            <li class="py-4 px-6 flex items-center">
+              <label for="paypal" class="ml-3">
+                <span class="block text-sm font-medium text-gray-900">PayPal</span>
+                {{ form.render }}
+              </label>
+            </li>
+            
+            <li class="py-4 px-6 flex items-center">
+            <a href="{% url "payment:done" %}?pk={{pk}}" class="hover:text-orange-600 hover:bg-orange-200">
+              <label for="creditCard" class="ml-3 ">
+                <span class="block text-sm font-medium text-gray-900">Ship code</span>
+                <span class="block text-sm text-gray-500">Payment on delivery</span>
+              </label>
+            </a>
+            </li>
+        
+          </ul>
+          
+          {% comment %} <button class="mt-8 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-2 px-4 rounded">
+            Continue to Payment
+          </button> {% endcomment %}
+        </div>
+      </body>
 {% endblock %}

@@ -54,9 +54,12 @@ def rating(request, order_item_id):
                 return redirect('core:index')
         else:
             form = RatingForm()
+
+        numbers = [0.5,1.5,2.5,3.5,4.5]
         return render(request, 'rating/rating.html', {
             'form': form,
             'order_item' : order_item,
+            'numbers':numbers,
             })
     else:
          return redirect('item:detail', pk=item.pk)

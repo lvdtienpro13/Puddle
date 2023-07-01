@@ -101,6 +101,7 @@ class Order(models.Model):
         ordered_date = kwargs.pop('ordered_date', None)
         super().__init__(*args, **kwargs)
         self.ordered_date = ordered_date
+        self.save()
 
     def get_total(self):
         total = 0

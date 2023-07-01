@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6&$h)m(evbc^kh+ac0kt9^#^-32g87f*sjwoa^w)k=ze-5383%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','7450-2402-800-629c-1e1c-85f8-b768-cf74-2d9b.ngrok-free.app']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'conversation',
     'payment',
     'rating',
+    'searchbyimage',
     'paypal.standard.ipn',
 ]
 
@@ -58,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CSRF_TRUSTED_ORIGINS = ['https://*7450-2402-800-629c-1e1c-85f8-b768-cf74-2d9b.ngrok-free.app','https://*.127.0.0.1']
 
 ROOT_URLCONF = 'puddle.urls'
 
@@ -139,3 +142,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #django-paypal setting
 PAYPAL_RECEIVER_EMAIL = 'sb-61m5j25640355@business.example.com'
 PAYPAL_TEST = True
+
+#redis setting
+BROKER_URL = 'redis://localhost:6379/0'

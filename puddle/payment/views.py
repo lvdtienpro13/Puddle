@@ -13,6 +13,10 @@ from .models import ShippingAddress
 
 @csrf_exempt
 def payment_done(request):
+    pk = request.GET.get('pk')
+    print(pk)
+    order = get_object_or_404(Order, pk=pk)
+    order.complete_order()
     return render(request, 'payment/done.html')
 
 @csrf_exempt
@@ -30,13 +34,15 @@ def payment_process(request, pk):
         'invoice': str(order.id),
         'currency_code': 'USD',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
-        'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
+        'return_url': 'http://{}{}?pk={}'.format(host, reverse('payment:done'), pk),
         'cancel_return': 'http://{}{}'.format(host, reverse('payment:canceled')),
         }
-    order.complete_order()
+    # order.complete_order()
+    
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, 'payment/process.html', {'order': order,
-        'form': form,})
+        'form': form,
+        'pk':pk})
 
 
 def checkout(request, pk):
