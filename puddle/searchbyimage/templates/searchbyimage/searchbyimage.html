@@ -8,6 +8,7 @@
         {% csrf_token %}
         <div class="mb-4">
           {{ form.as_p }}
+          <img id="preview-image" src="#" alt="Preview" style="display: none; width: 200px; height: 200px;">
           <button class="bg-orange-600 text-white px-4 py-2 rounded" type="submit">Search</button>
         </div>
       </form>
@@ -56,4 +57,17 @@
         {% endfor %}
     </div>
 </div>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('preview-image');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    document.getElementById('id_image').addEventListener('change', previewImage);
+</script>
 {% endblock  %}

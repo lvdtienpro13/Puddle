@@ -1,3 +1,4 @@
+from decimal import ROUND_DOWN, Decimal
 from django.db import models
 from django.contrib.auth import get_user_model
 from rating.models import Rating
@@ -19,7 +20,8 @@ class Profile(models.Model):
         ratings = Rating.objects.filter(item__created_by=self.user)
         if ratings.count() > 0:
             sum_ratings = sum([rating.rating for rating in ratings])
-            self.average_rating = sum_ratings / ratings.count()
+            avg_rating = Decimal(sum_ratings) / ratings.count()
+            self.average_rating = avg_rating.quantize(Decimal('0.00'), rounding=ROUND_DOWN)
         else:
             self.average_rating = 0
         self.save()

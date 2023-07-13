@@ -90,7 +90,7 @@ def delete(request, pk):
     item = get_object_or_404(Item, pk=pk, created_by=request.user)
     item.delete()
 
-    return redirect('dashboard:index')
+    return redirect('core:profile', pk=request.user.username)
 
 @login_required
 def edit(request, pk):

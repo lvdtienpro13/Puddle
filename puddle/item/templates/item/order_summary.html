@@ -95,7 +95,7 @@
                 <tr class="border-b dark:border-neutral-500">
                     <th scope="row">{{ forloop.counter }}</th>
                     <td class="whitespace-nowrap px-6 py-4">{{order_item.item.name}}</td>
-                    <td class="whitespace-nowrap px-6 py-4">{{object.ordered_date}}</td>
+                    <td class="whitespace-nowrap px-6 py-4">{{order_item.item.price}}</td>
                     <td class="whitespace-nowrap px-6 py-4">
                         <a href="{% url 'item:remove-single-item-from-cart' order_item.item.pk %}"><span class="inline-block w-5 h-5 bg-gray-500 rounded-full text-white text-center leading-4">-</span>
                         {{order_item.quantity}}

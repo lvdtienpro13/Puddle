@@ -15,7 +15,7 @@
                     <span class="text-gray-500 mt-2 mr-2 text-red-500"><del>{{item.price}}</del></span>
                     <span class="text-gray-500 mt-2">{{item.discount_price}}</span>
                 {% else %}
-                    <span class="text-gray-500 mt-2">{{item.price}}$</span>
+                    <span class="text-gray-500 mt-2">{{item.price}} vnd</span>
                 {% endif %}
                 <p class="text-gray-500"><strong>Seller: </strong> <a href="{% url 'core:profile' item.created_by.username %}" class="text-decoration-line: underline">{{item.created_by.username}}</a> </p>
                 {%if item.description%}
@@ -82,7 +82,7 @@
                     </div>
                 {% else %}
                     <div class="flex items-center mt-6">
-                        <button class="px-4 py-2 mx-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-400 focus:outline-none focus:bg-indigo-500">Order Now</button>
+                        <a href="{{ item.get_add_to_cart_url }}" class="px-4 py-2 mx-2 bg-indigo-600 text-white text-sm font-medium rounded hover:bg-indigo-400 focus:outline-none focus:bg-indigo-500">Order Now</a>
                         <a href="{%url 'conversation:new' item.id%}" class="px-4 py-2 mx-2 bg-teal-600 text-white text-sm font-medium rounded hover:bg-teal-400 focus:outline-none focus:bg-indigo-500">Contact Seller</a>
                         <a href="{{ item.get_add_to_cart_url }}" class="mx-2 text-gray-600 border rounded-md p-2 hover:bg-gray-200 focus:outline-none">
                             <svg class="h-5 w-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>

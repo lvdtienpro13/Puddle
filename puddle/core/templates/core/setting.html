@@ -10,6 +10,7 @@
         {% csrf_token %}
         <div class="space-y-4">
             {{form.as_p}}
+            <img id="preview-image" src="#" alt="Preview" style="display: none; ">
         </div>
 
         {% if form.errors or form.non_field_errors %}
@@ -24,4 +25,17 @@
         <button class="py-4 px-8 my-4 text-lg bg-orange-500 hover:bg-orange-700 rounded-xl text-white">Submit</button>
     </form>
 </div>
+<script>
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('preview-image');
+            output.src = reader.result;
+            output.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    document.getElementById('id_image').addEventListener('change', previewImage);
+</script>
 {%endblock%}

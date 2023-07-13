@@ -6,7 +6,7 @@ from .forms import RatingForm
 from item.models import Item, OrderItem
 from .models import Rating
 from core.models import Profile
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect, get_object_or_404, reverse
 from django.contrib.auth.decorators import login_required
 # def rating(request):
 #     return render(request, 'rating/rating.html')
@@ -51,7 +51,9 @@ def rating(request, order_item_id):
                 item.calculate_avg_rating()
                 profile.calculate_avg_rating()
 
-                return redirect('core:index')
+                url = reverse('rating:index')
+                url_with_params = url + '?rated_type=0'
+                return redirect(url_with_params)
         else:
             form = RatingForm()
 

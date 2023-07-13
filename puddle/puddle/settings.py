@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6&$h)m(evbc^kh+ac0kt9^#^-32g87f*sjwoa^w)k=ze-5383%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','7450-2402-800-629c-1e1c-85f8-b768-cf74-2d9b.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1','c933-103-19-99-52.ngrok-free.app']
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -60,7 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['https://*7450-2402-800-629c-1e1c-85f8-b768-cf74-2d9b.ngrok-free.app','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*c933-103-19-99-52.ngrok-free.app/','https://*.127.0.0.1']
 
 ROOT_URLCONF = 'puddle.urls'
 

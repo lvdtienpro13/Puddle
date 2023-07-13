@@ -281,7 +281,7 @@
                                       {% endif %}
                                   {% endfor %}
                                       </span>
-                                      <span> {{item.average_rating}} out 5</span>
+                                      <span> {{ user_profile.average_rating|floatformat:2|add:"0.00"|slice:"0:4" }} out 5</span>
                                   </span>
                                 </div>
                                 

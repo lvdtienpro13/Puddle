@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 
 def index(request):
     item_list = Item.objects.filter(is_sold=False).order_by('-id')
-    paginator = Paginator(item_list, 8)  # Chia các mục thành các trang chứa tối đa 8 mục.
+    paginator = Paginator(item_list, 16)  # Chia các mục thành các trang chứa tối đa 8 mục.
 
     page = request.GET.get('page')  # Lấy số trang từ tham số truy vấn.
     items = paginator.get_page(page)  # Lấy các mục cho trang hiện tại.
@@ -84,6 +84,7 @@ def change_password(request):
 def profile(request, pk):
     user_object= User.objects.get(username=pk)
     user_profile = Profile.objects.get(user=user_object)
+    user_profile.calculate_avg_rating()
     user_items = Item.objects.filter(created_by=user_object)
     user_items_length = len(user_items)
 
